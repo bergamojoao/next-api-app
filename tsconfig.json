@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "typeRoots": ["custom_typings"],
+    "baseUrl": "."
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "models/validator.ts", "errors/index.ts", "pages/hooks/useUser.js"],
+  "exclude": ["node_modules"]
+}
