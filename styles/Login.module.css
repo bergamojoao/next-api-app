@@ -28,24 +28,20 @@
     font-size: 16px;
 }
 
-.main form input::placeholder {
-    color: #BBB
-}
-
 .main form button {
     margin-top: 20px;
     border: 0;
     border-radius: 4px;
     height: 48px;
     font-size: 16px;
-    background: #DF4723;
+    background: #318df7;
     font-weight: bold;
     color: #FFF;
     cursor: pointer;
 }
 
 .main form button:hover{
-  background: #f82d00;
+  background: #0d63c5;
 }
 
 .forgot{

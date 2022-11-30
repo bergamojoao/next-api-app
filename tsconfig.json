@@ -17,6 +17,6 @@
     "typeRoots": ["custom_typings"],
     "baseUrl": "."
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "models/validator.ts", "errors/index.ts", "pages/hooks/useUser.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "models/validator.ts", "errors/index.ts", "pages/interface/hooks/useUser.js"],
   "exclude": ["node_modules"]
 }
