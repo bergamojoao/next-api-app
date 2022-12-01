@@ -13,15 +13,16 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useRouter } from "next/router";
-import {useUser} from "pages/interface";
-import { LogoutOutlined } from "@mui/icons-material";
+import { useUser } from "pages/interface";
+import { LogoutOutlined, Brightness7, Brightness4 } from "@mui/icons-material";
+import { useTheme } from "@mui/material";
+import { useColorMode } from "pages/interface/hooks/useColorMode";
 
 const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Logout"];
 
 
 function ResponsiveAppBar() {
-	const {user, logout, isLoading} = useUser();
+  const { user, logout } = useUser();
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -31,6 +32,8 @@ function ResponsiveAppBar() {
   );
 
   const router = useRouter();
+  const theme = useTheme();
+  const colorMode = useColorMode();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -44,7 +47,7 @@ function ResponsiveAppBar() {
   };
 
   const handleLogout = () => {
-		logout();
+    logout();
     handleCloseUserMenu();
     router.push('/login');
   };
@@ -54,7 +57,7 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{bgcolor:'palette.primary'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon />
@@ -136,12 +139,15 @@ function ResponsiveAppBar() {
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
+                sx={{ my: 2, color: 'white', display: "block" }}
               >
                 {page}
               </Button>
             ))}
           </Box>
+          <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+            {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
+          </IconButton>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title={user.name}>
@@ -166,7 +172,7 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               <MenuItem key="logout" onClick={handleLogout}>
-								<LogoutOutlined/>
+                <LogoutOutlined />
                 <Typography textAlign="center">Logout</Typography>
               </MenuItem>
             </Menu>
