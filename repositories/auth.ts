@@ -1,7 +1,3 @@
-import Router from "next/router";
-import { useEffect } from "react";
-import useSWR from "swr";
-import axios from "axios";
 import api from "services/api";
 
 export async function login(email: string, password: string) {

@@ -128,3 +128,21 @@ export async function updateUserPassword(id: string, password: string) {
     throw new InternalServerError();
   }
 }
+
+export async function getUsers() {
+  try { 
+    const users = await prisma.user.findMany({
+      select:{
+        id: true,
+        email: true,
+        name: true,
+        role: true
+      }
+    });
+
+    return users;
+  } catch (err) {
+    console.log(err);
+    throw new InternalServerError();
+  }
+}

@@ -42,9 +42,10 @@ export async function adminAuthMiddleware(
 
     if (result["type"] == "login") {
       request.account = await findUserById(result["id"]);
-
-      if (request.account == UserRole.ADMIN) {
+      if (request.account.role == UserRole.ADMIN) {
         next();
+      }else{
+        throw new ForbiddenError();
       }
     } else {
       throw new ForbiddenError();

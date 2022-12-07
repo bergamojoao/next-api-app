@@ -1,6 +1,6 @@
 import nextConnect, { NextHandler } from "next-connect";
 import { NextApiRequest, NextApiResponse } from "next";
-import { createUser } from "models/user";
+import { createUser, getUsers } from "models/user";
 import validator from "models/validator";
 import { onErrorHandler } from "models/controller";
 import { adminAuthMiddleware } from "models/authorization";
@@ -8,7 +8,8 @@ export default nextConnect({
   attachParams: true,
   onError: onErrorHandler,
 })
-.post(adminAuthMiddleware, postValidationHandler, createUserHandler);
+.post(adminAuthMiddleware, postValidationHandler, createUserHandler)
+.get(adminAuthMiddleware, getUsersHandler);
 
 function postValidationHandler(
   request: NextApiRequest,
@@ -32,5 +33,13 @@ async function createUserHandler(
 ) {
   const { email, password, name } = request.body;
   const result = await createUser(name, email, password);
+  response.status(200).json(result);
+}
+
+async function getUsersHandler(
+  request: NextApiRequest,
+  response: NextApiResponse
+) {
+  const result = await getUsers();
   response.status(200).json(result);
 }

@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import styles from "../styles/Home.module.css";
-import { LoadingIndicator, TabBar, useUser } from "./interface";
+import { LoadingIndicator, useUser } from "./interface";
 
 export default function Home() {
   const router = useRouter();
@@ -19,7 +19,6 @@ export default function Home() {
 
   return (
     <div className={styles.body}>
-      <TabBar />
       <div className={styles.container}>
         <main className={styles.main}>
           <h1>{`Olá ${user.name}`}</h1>
