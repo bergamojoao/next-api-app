@@ -10,6 +10,7 @@ export async function sendRecoveryEmail(
     const user = await prisma.user.findFirst({
       where: {
         email,
+        active: true
       },
     });
 

@@ -2,6 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { IUser } from "models/user";
 
-interface NextTokenRequest extends NextApiRequest {
+interface NextAuthRequest extends NextApiRequest {
   account: IUser;
 }

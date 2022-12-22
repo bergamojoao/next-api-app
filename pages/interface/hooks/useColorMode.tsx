@@ -19,11 +19,11 @@ const getDesignTokens = (mode: PaletteMode) => ({
     ...(mode === "light"
       ? {
           // palette values for light mode
-          primary: blue,
-          background: {
-            //default: purple[900],
-            paper: blue[500],
-          },
+          primary: purple,
+          // background: {
+          //   //default: purple[900],
+          //   //paper: blue[500],
+          // },
           // text: {
           //   primary: '#fff',
           //   secondary: "#fff",
@@ -31,11 +31,11 @@ const getDesignTokens = (mode: PaletteMode) => ({
         }
       : {
           // palette values for dark mode
-          primary: blue,
-          background: {
-            //default: purple[900],
-            paper: blue[500],
-          },
+          primary: purple,
+          // background: {
+          //   //default: purple[900],
+          //   //paper: blue[500],
+          // },
           // text: {
           //   primary: '#fff',
           //   secondary: '#fff',

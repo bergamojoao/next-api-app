@@ -1,12 +1,13 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
 import { NextHandler } from "next-connect";
 import jwt from "jsonwebtoken";
 
 import { ForbiddenError, UnauthorizedError } from "errors";
 import { findUserById, UserRole } from "./user";
+import { NextAuthRequest } from "custom_typings/next";
 
 export async function userAuthMiddleware(
-  request: NextApiRequest,
+  request: NextAuthRequest,
   _: NextApiResponse,
   next: NextHandler
 ) {
@@ -17,10 +18,13 @@ export async function userAuthMiddleware(
     const result: any = jwt.verify(token, process.env.SECRET!);
 
     if (result["type"] == "login") {
-      request.account = await findUserById(result["id"]);
-      next();
+      try {
+        request.account = await findUserById(result["id"]);
+        next();
+      } catch (_) {
+        throw new ForbiddenError();
+      }
     } else {
-      throw new ForbiddenError();
     }
   } else {
     throw new UnauthorizedError(
@@ -30,7 +34,7 @@ export async function userAuthMiddleware(
 }
 
 export async function adminAuthMiddleware(
-  request: NextApiRequest,
+  request: NextAuthRequest,
   _: NextApiResponse,
   next: NextHandler
 ) {
@@ -41,10 +45,14 @@ export async function adminAuthMiddleware(
     const result: any = jwt.verify(token, process.env.SECRET!);
 
     if (result["type"] == "login") {
-      request.account = await findUserById(result["id"]);
-      if (request.account.role == UserRole.ADMIN) {
-        next();
-      }else{
+      try {
+        request.account = await findUserById(result["id"]);
+        if (request.account.role == UserRole.ADMIN) {
+          next();
+        } else {
+          throw new ForbiddenError();
+        }
+      } catch (_) {
         throw new ForbiddenError();
       }
     } else {
@@ -58,7 +66,7 @@ export async function adminAuthMiddleware(
 }
 
 export async function recoveryMiddleware(
-  request: NextApiRequest,
+  request: NextAuthRequest,
   _: NextApiResponse,
   next: NextHandler
 ) {
@@ -68,8 +76,12 @@ export async function recoveryMiddleware(
     const result: any = jwt.verify(token as string, process.env.SECRET!);
 
     if (result["type"] == "recovery") {
-      request.account = await findUserById(result["id"]);
-      next();
+      try {
+        request.account = await findUserById(result["id"]);
+        next();
+      } catch (_) {
+        throw new ForbiddenError();
+      }
     } else {
       throw new ForbiddenError();
     }

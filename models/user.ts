@@ -8,6 +8,7 @@ export interface IUser {
   email: string;
   name: string | null;
   role: UserRole;
+  active: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -33,7 +34,9 @@ export async function createUser(
         role: "user",
       },
     });
-    return { id: user.id };
+
+    const { password: _, ...createdUser } = user;
+    return createdUser;
   } catch (err) {
     console.log(err);
     throw new InternalServerError();
@@ -48,6 +51,7 @@ export async function userLogin(
     const user = await prisma.user.findFirst({
       where: {
         email,
+        active: true
       },
     });
 
@@ -73,12 +77,15 @@ export async function userLogin(
 export async function findUserById(id: string) {
   try {
     const user = await prisma.user.findFirst({
-      where: { id },
+      where: { id, active: true },
     });
 
     if (user) {
-      const { password, ...userEntity } = user;
-      return userEntity;
+      const { password, role: roleString, ...userEntity } = user;
+
+      const role = roleString as UserRole
+
+      return { role, ...userEntity };
     } else {
       throw new NotFoundError();
     }
@@ -130,17 +137,56 @@ export async function updateUserPassword(id: string, password: string) {
 }
 
 export async function getUsers() {
-  try { 
+  try {
     const users = await prisma.user.findMany({
-      select:{
+      select: {
         id: true,
         email: true,
         name: true,
-        role: true
+        role: true,
+        active: true,
+        createdAt: true,
+        updatedAt: true,
       }
     });
 
     return users;
+  } catch (err) {
+    console.log(err);
+    throw new InternalServerError();
+  }
+}
+
+
+export async function updateUser(
+  id: string,
+  name?: string,
+  email?: string,
+  password?: string,
+  role?: string,
+  active?: boolean,
+  isAdmin?: boolean,
+) {
+  try {
+    if (password) {
+      password = await bcrypt.hash(password, 10);
+    }
+
+    const user = await prisma.user.update({
+      where: {
+        id
+      },
+      data: {
+        name,
+        email,
+        password,
+        role: isAdmin ? role : undefined,
+        active: isAdmin ? active : undefined
+      },
+    });
+
+    const { password: _, ...updatedUser } = user;
+    return updatedUser;
   } catch (err) {
     console.log(err);
     throw new InternalServerError();

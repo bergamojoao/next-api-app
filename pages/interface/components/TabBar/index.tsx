@@ -219,10 +219,10 @@ function ResponsiveAppBar() {
         <List>
           <ListItem key={"users"} disablePadding>
             <ListItemButton onClick={() => handleNavigate("/users")}>
-              <ListItemIcon sx={{ color: "white" }}>
+              <ListItemIcon>
                 <AccountIcon />
               </ListItemIcon>
-              <ListItemText sx={{ color: "white" }} primary={"Usuários"} />
+              <ListItemText primary={"Usuários"} />
             </ListItemButton>
           </ListItem>
         </List>

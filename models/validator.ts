@@ -155,4 +155,40 @@ const schemas = {
         }),
     });
   },
+
+  role: function () {
+    return Joi.object({
+      role: Joi.string()
+        .min(4)
+        .max(5)
+        .trim()
+        .valid("user", "admin")
+        .when("$required.role", {
+          is: "required",
+          then: Joi.required(),
+          otherwise: Joi.optional(),
+        })
+        .messages({
+          "any.required": `"role" é um campo obrigatório.`,
+          "string.empty": `"role" não pode estar em branco.`,
+          "string.base": `"role" deve ser do tipo String.`,
+          "any.invalid": `"role" possui o valor inválido.`,
+        }),
+    });
+  },
+
+  active: function () {
+    return Joi.object({
+      active: Joi.bool()
+        .when("$required.active", {
+          is: "required",
+          then: Joi.required(),
+          otherwise: Joi.optional(),
+        })
+        .messages({
+          "any.required": `"active" é um campo obrigatório.`,
+          "any.invalid": `"active" possui o valor inválido.`,
+        }),
+    });
+  },
 };

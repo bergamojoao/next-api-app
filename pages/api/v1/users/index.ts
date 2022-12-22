@@ -8,7 +8,7 @@ export default nextConnect({
   attachParams: true,
   onError: onErrorHandler,
 })
-.post(adminAuthMiddleware, postValidationHandler, createUserHandler)
+.post(postValidationHandler, createUserHandler)
 .get(adminAuthMiddleware, getUsersHandler);
 
 function postValidationHandler(
